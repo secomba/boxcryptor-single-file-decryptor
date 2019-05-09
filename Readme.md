@@ -11,7 +11,7 @@ For information about the build process please consult the corresponding readme 
 
 ### Usage
 After having successfully build the application you can run it with the following command line arguments:
-1. The path to your personal .bckey-file (you can get this file by following this guide: https://support.boxcryptor.com/display/DOCEN/08.+Key+export)
+1. The path to your personal .bckey-file (you can get this file by following this guide: https://www.boxcryptor.com/en/help/boxcryptor-account/windows/#export-your-keys)
 2. The path to the encrypted file you want to decrypt
 3. The password to your Boxcryptor account
 4. Optionally: The path where the decrypted file should be saved to (if not specified, the output will be derived from the encrypted file and will be located in the same folder)
