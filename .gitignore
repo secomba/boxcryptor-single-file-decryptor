@@ -8,3 +8,4 @@
 *.lib
 *.a
 /CSharpNetCore/.vs
+**/bin/debug
