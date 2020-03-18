@@ -7,3 +7,4 @@
 *.pdb
 *.lib
 *.a
+/CSharpNetCore/.vs
