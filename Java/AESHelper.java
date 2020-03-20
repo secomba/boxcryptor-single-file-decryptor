@@ -107,7 +107,7 @@ class AESHelper {
 
         // it is necessary to compute the HMAC-SHA-256 hash
         // again to make sure the private key, password, salt
-        // and iteraton coutn weren't tampered with
+        // and iteraton count weren't tampered with
         byte[] computedHmacHash = HashHelper.ComputeSHA256HMAC(privateKeyBytes, hmacKey);
         if (!Arrays.equals(computedHmacHash, givenHmacHash)) {
             throw new RuntimeException("HMAC hashes do not match, make sure you used a matching .bckey file and password");
