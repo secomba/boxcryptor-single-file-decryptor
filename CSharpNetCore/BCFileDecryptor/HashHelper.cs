@@ -14,12 +14,12 @@ namespace BCFileDecryptorCore
         {
             if (!silent)
             {
-                Console.WriteLine("Computation of HMAC-SHA-256 hash with " + data.Length + " bytes started");
+                Console.WriteLine($"Computation of HMAC-SHA-256 hash with {data.Length} bytes started");
             }
 
             if (data.Length <= 0 || key.Length <= 0)
             {
-                throw new SystemException("No data from which to calculate hmac");
+                throw new Exception("No data from which to calculate hmac");
             }
 
             byte[] finalData;
@@ -31,7 +31,7 @@ namespace BCFileDecryptorCore
             }
             catch (Exception e)
             {
-                throw new SystemException("Computation of HMAC-SHA-256 failed", e);
+                throw new Exception("Computation of HMAC-SHA-256 failed", e);
             }
 
             return finalData;

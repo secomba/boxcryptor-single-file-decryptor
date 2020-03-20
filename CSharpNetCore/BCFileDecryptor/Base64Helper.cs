@@ -7,11 +7,11 @@ namespace BCFileDecryptorCore
     {
         public static byte[] encode(byte[] data)
         {
-            Console.WriteLine("Base 64 encoding of " + data.Length + " bytes started");
+            Console.WriteLine($"Base 64 encoding of {data.Length} bytes started");
 
             if (data.Length <= 0)
             {
-                throw new SystemException("No data to encode");
+                throw new Exception("No data to encode");
             }
             byte[] result = Encoding.Default.GetBytes(Convert.ToBase64String(data));
             Console.WriteLine("Base 64 encoding finished");
@@ -21,11 +21,11 @@ namespace BCFileDecryptorCore
 
         public static byte[] decode(string data)
         {
-            Console.WriteLine("Base 64 decoding of " + Encoding.Default.GetBytes(data).Length + " bytes started");
+            Console.WriteLine($"Base 64 decoding of {Encoding.Default.GetBytes(data).Length} bytes started");
 
             if (data.Equals(""))
             {
-                throw new SystemException("No data to encode");
+                throw new Exception("No data to encode");
             }
 
             byte[] result = Convert.FromBase64String(data);
@@ -36,11 +36,11 @@ namespace BCFileDecryptorCore
 
         public static byte[] decode(byte[] data)
         {
-            Console.WriteLine("Base 64 decoding of " + data.Length + " bytes started");
+            Console.WriteLine($"Base 64 decoding of {data.Length} bytes started");
 
             if (data.Length <= 0)
             {
-                throw new SystemException("No data to decode");
+                throw new Exception("No data to decode");
             }
 
             byte[] result = Convert.FromBase64String(Encoding.Default.GetString(data));
