@@ -43,7 +43,7 @@ namespace BCFileDecryptorCore
 
         public static byte[] DecryptData(byte[] data, byte[] cryptoKey, byte[] IVec)
         {
-            return DecryptData(data, cryptoKey, IVec, PaddingMode.PKCS7);  // true =^ PKCS7 padding
+            return DecryptData(data, cryptoKey, IVec, PaddingMode.PKCS7);
         }
         public static byte[] DecryptData(byte[] data, byte[] cryptoKey, byte[] IVec, PaddingMode padding)
         {

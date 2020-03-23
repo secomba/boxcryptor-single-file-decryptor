@@ -23,7 +23,7 @@ namespace BCFileDecryptorCore
         public string EncryptedFilePath { get; private set; }
         public string BaseIVec { get; private set; }
         public int BlockSize { get; private set; }
-        public int HeaderLen { get { return headerData.rawLen + headerData.coreLen + headerData.corePaddingLen; } }
+        public int HeaderLen => headerData.rawLen + headerData.coreLen + headerData.corePaddingLen;
         public int CipherPadding { get { return headerData.ciipherPaddingLen; } }
 
         private readonly HeaderData headerData;
@@ -173,6 +173,7 @@ namespace BCFileDecryptorCore
                     || e is DecoderFallbackException) {
                     throw new Exception("Header could not be parsed", e);
                 }
+                throw;
             }
 
             Console.WriteLine("Parsing finished");
