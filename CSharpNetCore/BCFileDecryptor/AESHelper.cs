@@ -47,7 +47,7 @@ namespace BCFileDecryptorCore
         }
         public static byte[] DecryptData(byte[] data, byte[] cryptoKey, byte[] IVec, PaddingMode padding)
         {
-            if (data.Length <= 0 || cryptoKey.Length <= 0 || IVec.Length <= 0)
+            if (data.Length < 0 || cryptoKey.Length <= 0 || IVec.Length <= 0)
             {
                 throw new Exception("Encrypted data, crypto key and initialization vector can't be empty");
             }
@@ -168,7 +168,10 @@ namespace BCFileDecryptorCore
             string byteProgress = $" (0 / {fileSize} bytes)";
             StringBuilder routeString = new StringBuilder();
             StringBuilder spaceString = new StringBuilder();
-            for (int i = 0; i < 20; i++) spaceString.Append(" ");
+            for (int i = 0; i < 20; i++)
+            {
+                spaceString.Append(" ");
+            }
             Console.WriteLine($"Progress: [{spaceString}]{byteProgress}");
 
             // decrypt each block separately with its own initialization vector
@@ -183,9 +186,6 @@ namespace BCFileDecryptorCore
                 byte[] blockInput = new byte[end - byteNo];
                 BlockCopy(fileBytes, byteNo, blockInput, 0, end - byteNo);
 
-                // PKCS7 padding for the last block if a cipher padding size greater than 0 was specified in file header
-                // Note: the only differnce between PKCS5 and 7 is the block size (8 and 0-255 bytes respectively),
-                // Java only offers the 'PKCS5PADDING' identifier (legacy from the time only 8 byte block ciphers were available)
                 PaddingMode currentPadding = (end == fileSize && padding > 0) ? PaddingMode.PKCS7 : PaddingMode.None;
 
                 // get the decrypted data for this block ...
@@ -203,9 +203,15 @@ namespace BCFileDecryptorCore
                     currentStep += steps;
                     byteProgress = $" ({byteNo} / {fileSize} bytes)";
                     routeString.Length = 0;
-                    for (int i = 0; i < currentStep; i++) routeString.Append("#");
+                    for (int i = 0; i < currentStep; i++) 
+                    { 
+                        routeString.Append("#"); 
+                    }
                     spaceString.Length = 0;
-                    for (int i = 0; i < 20 - currentStep; i++) spaceString.Append(" ");
+                    for (int i = 0; i < 20 - currentStep; i++)
+                    {
+                        spaceString.Append(" ");
+                    }
                     Console.WriteLine($"Progress: [{routeString}{spaceString}]{byteProgress}");
                 }
             }
@@ -213,7 +219,10 @@ namespace BCFileDecryptorCore
             // newline after Status report
             byteProgress = $" ({fileSize} / {fileSize} bytes)";
             routeString.Length = 0;
-            for (int i = 0; i < 20; i++) routeString.Append("#");
+            for (int i = 0; i < 20; i++)
+            {
+                routeString.Append("#");
+            }
             Console.WriteLine($"Progress: [{routeString}]{byteProgress}");
 
             Console.WriteLine("AES decryption of file finished");

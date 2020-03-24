@@ -17,7 +17,9 @@ namespace BCFileDecryptorCore
             set
             {
                 if (value == "")
+                {
                     throw new ArgumentException("Password can't be empty");
+                }
                 password = value;
             }
         }
@@ -52,10 +54,15 @@ namespace BCFileDecryptorCore
             catch (Exception e)
             {
                 if (e is IOException)
+                {
                     throw new Exception("BCKey file ({keyFilePath}) could not be parsed", e);
+                }
                 else
+                {
                     throw new Exception("BCKey file ({keyFilePath}) could not be opened (make sure the provided path "
                                       + "is correct, the file exists and you have the right to open the file)", e);
+                }
+                throw;
             }
 
             Console.WriteLine("Parsing finished");

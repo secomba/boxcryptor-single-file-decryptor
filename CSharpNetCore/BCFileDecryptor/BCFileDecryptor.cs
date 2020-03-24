@@ -69,7 +69,9 @@ namespace BCFileDecryptorCore
             {
                 Console.WriteLine(e.Message);
                 if (e.StackTrace != null)
+                {
                     Console.WriteLine(e.StackTrace);
+                }
             }
         }
     }
