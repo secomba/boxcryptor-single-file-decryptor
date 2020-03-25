@@ -41,13 +41,13 @@ namespace BCFileDecryptorCore
             return result;
         }
 
-        public static byte[] DecryptData(byte[] data, byte[] cryptoKey, byte[] IVec)
+        public static byte[] DecryptData(byte[] data, byte[] cryptoKey, byte[] IVec, bool isUserGeneratedData)
         {
-            return DecryptData(data, cryptoKey, IVec, PaddingMode.PKCS7);
+            return DecryptData(data, cryptoKey, IVec, isUserGeneratedData, PaddingMode.PKCS7);
         }
-        public static byte[] DecryptData(byte[] data, byte[] cryptoKey, byte[] IVec, PaddingMode padding)
+        public static byte[] DecryptData(byte[] data, byte[] cryptoKey, byte[] IVec, bool isUserGeneratedData, PaddingMode padding)
         {
-            if (data.Length < 0 || cryptoKey.Length <= 0 || IVec.Length <= 0)
+            if ((isUserGeneratedData ? data.Length < 0 : data.Length <= 0) || cryptoKey.Length <= 0 || IVec.Length <= 0)
             {
                 throw new Exception("Encrypted data, crypto key and initialization vector can't be empty");
             }
@@ -128,7 +128,7 @@ namespace BCFileDecryptorCore
                 throw new Exception("HMAC hashes do not match, make sure you used a matching .bckey file and password");
             }
 
-            byte[] result = DecryptData(privateKeyBytes, cryptoKey, IVec);
+            byte[] result = DecryptData(privateKeyBytes, cryptoKey, IVec, false);
 
             Console.WriteLine("AES decryption finished");
             return result;
@@ -189,7 +189,7 @@ namespace BCFileDecryptorCore
                 PaddingMode currentPadding = (end == fileSize && padding > 0) ? PaddingMode.PKCS7 : PaddingMode.None;
 
                 // get the decrypted data for this block ...
-                byte[] decryptedBlock = AESHelper.DecryptData(blockInput, fileCryptoKey, blockIVec, currentPadding);
+                byte[] decryptedBlock = AESHelper.DecryptData(blockInput, fileCryptoKey, blockIVec, true, currentPadding);
 
                 // ... and append it to the previous data
                 BlockCopy(decryptedBlock, 0, result, byteNo - offset, decryptedBlock.Length);
