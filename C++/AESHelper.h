@@ -23,6 +23,7 @@ private:
 	static std::vector<byte> ComputeBlockIVec(std::vector<byte> ivec, unsigned long seed, std::vector<byte> key);
 	static bool DecryptData(
 		const std::vector<byte>& data, const std::vector<byte>& cryptoKey, const std::vector<byte>& IVec, std::string& output,
+		bool isUserGeneratedData, 
 		CryptoPP::BlockPaddingSchemeDef::BlockPaddingScheme paddingMode = CryptoPP::StreamTransformationFilter::PKCS_PADDING);
 };
 
