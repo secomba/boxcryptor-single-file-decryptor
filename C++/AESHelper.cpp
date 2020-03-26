@@ -195,7 +195,7 @@ bool AESHelper::DecryptFile(
 	bool isUserGeneratedData, 
 	CryptoPP::BlockPaddingSchemeDef::BlockPaddingScheme paddingMode /* = CryptoPP::StreamTransformationFilter::PKCS_PADDING*/)
 {
-	if ((isUserGeneratedData ? data.size() >= 0 : data.size() > 0) && cryptoKey.size() > 0 && IVec.size() > 0)
+	if ((isUserGeneratedData || data.size() > 0) && cryptoKey.size() > 0 && IVec.size() > 0)
 	{
 		CryptoPP::CBC_Mode<CryptoPP::AES>::Decryption aesDecryptor;
 

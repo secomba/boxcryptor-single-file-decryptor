@@ -48,7 +48,7 @@ class AESHelper {
     }
 
     private static byte[] decryptData(final byte[] data, final byte[] cryptoKey, final byte[] IVec, Boolean isUserGeneratedData, String padding) throws UnsupportedEncodingException {
-        if ((isUserGeneratedData ? data.length < 0 : data.length <= 0) || cryptoKey.length <= 0 || IVec.length <= 0) {
+        if (!isUserGeneratedData && data.length == 0 || cryptoKey.length == 0 || IVec.length == 0) {
             throw new RuntimeException("Encrypted data, crypto key and initialization vector can't be empty");
         }
 
