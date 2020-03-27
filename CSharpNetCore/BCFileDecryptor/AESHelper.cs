@@ -47,7 +47,7 @@ namespace BCFileDecryptorCore
         }
         public static byte[] DecryptData(byte[] data, byte[] cryptoKey, byte[] IVec, bool isUserGeneratedData, PaddingMode padding)
         {
-            if ((isUserGeneratedData ? data.Length < 0 : data.Length <= 0) || cryptoKey.Length <= 0 || IVec.Length <= 0)
+            if (!isUserGeneratedData && data.Length == 0 || cryptoKey.Length == 0 || IVec.Length == 0)
             {
                 throw new Exception("Encrypted data, crypto key and initialization vector can't be empty");
             }
