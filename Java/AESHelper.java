@@ -43,12 +43,12 @@ class AESHelper {
         return result;
     }
 
-    private static byte[] decryptData(final byte[] data, final byte[] cryptoKey, final byte[] IVec) throws UnsupportedEncodingException {
-        return AESHelper.decryptData(data, cryptoKey, IVec, "PKCS5PADDING");
+    private static byte[] decryptData(final byte[] data, final byte[] cryptoKey, final byte[] IVec, Boolean isUserGeneratedData) throws UnsupportedEncodingException {
+        return AESHelper.decryptData(data, cryptoKey, IVec, isUserGeneratedData, "PKCS5PADDING");
     }
 
-    private static byte[] decryptData(final byte[] data, final byte[] cryptoKey, final byte[] IVec, String padding) throws UnsupportedEncodingException {
-        if (data.length <= 0 || cryptoKey.length <= 0 || IVec.length <= 0) {
+    private static byte[] decryptData(final byte[] data, final byte[] cryptoKey, final byte[] IVec, Boolean isUserGeneratedData, String padding) throws UnsupportedEncodingException {
+        if (!isUserGeneratedData && data.length == 0 || cryptoKey.length == 0 || IVec.length == 0) {
             throw new RuntimeException("Encrypted data, crypto key and initialization vector can't be empty");
         }
 
@@ -107,13 +107,13 @@ class AESHelper {
 
         // it is necessary to compute the HMAC-SHA-256 hash
         // again to make sure the private key, password, salt
-        // and iteraton coutn weren't tampered with
+        // and iteraton count weren't tampered with
         byte[] computedHmacHash = HashHelper.ComputeSHA256HMAC(privateKeyBytes, hmacKey);
         if (!Arrays.equals(computedHmacHash, givenHmacHash)) {
             throw new RuntimeException("HMAC hashes do not match, make sure you used a matching .bckey file and password");
         }
 
-        byte[] result = AESHelper.decryptData(privateKeyBytes, cryptoKey, IVec);
+        byte[] result = AESHelper.decryptData(privateKeyBytes, cryptoKey, IVec, false);
 
         System.out.println("AES decryption finished");
         return result;
@@ -168,7 +168,7 @@ class AESHelper {
             String currentPadding = (end == fileSize && padding > 0) ? "PKCS5PADDING" : "NOPADDING";
 
             // get the decrypted data for this block ...
-            byte[] decryptedBlock = AESHelper.decryptData(blockInput, fileCryptoKey, blockIVec, currentPadding);
+            byte[] decryptedBlock = AESHelper.decryptData(blockInput, fileCryptoKey, blockIVec, true, currentPadding);
 
             // ... and append it to the previous data
             System.arraycopy(decryptedBlock, 0, result, byteNo - offset, decryptedBlock.length);

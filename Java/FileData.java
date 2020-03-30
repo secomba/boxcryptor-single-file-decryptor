@@ -25,6 +25,9 @@ class FileData {
     private int blockSize;
     private final HeaderData headerData;
     private String outputFilePath;
+    
+    // The following byte sequence corresponds to bc01; 
+    // Note: There is another file version for bc02 now.
     private final byte[] supportedFileVersion = {(byte) 98, (byte) 99, (byte) 48, (byte) 49};
 
     // appends a incrementing number to either the output path

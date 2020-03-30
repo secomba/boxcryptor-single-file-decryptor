@@ -50,7 +50,7 @@ bool AESHelper::DecryptDataPBKDF2(const std::string& data, const std::string& pb
 			throw std::runtime_error("HMAC hashes do not match, make sure you used a matching .bckey file and password");
 		}
 
-		AESHelper::DecryptData(privateKeyBytes, cryptoKey, IVec, decryptedData);
+		AESHelper::DecryptData(privateKeyBytes, cryptoKey, IVec, decryptedData, false);
 
 		std::cout << "AES decryption finished" << std::endl;
 		return true;
@@ -117,7 +117,7 @@ bool AESHelper::DecryptFile(
 
 			// get the decrypted data for this block ...
 			std::string decryptedBlockBytes;
-			AESHelper::DecryptData(blockInput, fileCryptoKey, blockIVec, decryptedBlockBytes, currentPadding);
+			AESHelper::DecryptData(blockInput, fileCryptoKey, blockIVec, decryptedBlockBytes, true, currentPadding);
 
 			// ... and append it to the data of previous blocks
 			decryptedFileBytes.insert(decryptedFileBytes.end(), decryptedBlockBytes.begin(), decryptedBlockBytes.end());
@@ -192,9 +192,10 @@ bool AESHelper::DecryptFile(
 /*private*/ bool AESHelper::DecryptData(
 	const std::vector<byte>& data, const std::vector<byte>& cryptoKey,
 	const std::vector<byte>& IVec, std::string& output,
+	bool isUserGeneratedData, 
 	CryptoPP::BlockPaddingSchemeDef::BlockPaddingScheme paddingMode /* = CryptoPP::StreamTransformationFilter::PKCS_PADDING*/)
 {
-	if (data.size() > 0 && cryptoKey.size() > 0 && IVec.size() > 0)
+	if ((isUserGeneratedData || data.size() > 0) && cryptoKey.size() > 0 && IVec.size() > 0)
 	{
 		CryptoPP::CBC_Mode<CryptoPP::AES>::Decryption aesDecryptor;
 

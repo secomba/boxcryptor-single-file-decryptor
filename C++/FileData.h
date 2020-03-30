@@ -37,6 +37,8 @@ private:
 	HeaderData m_headerData;
 	std::string m_outputFilePath;
 
+	// The following byte sequence corresponds to bc01; 
+	// Note: There is another file version for bc02 now.
 	const std::vector<byte> m_supportedFileVersion = { 98, 99, 48, 49 };
 
 	std::string CheckOutputFilepath(const std::string& currentPath);
